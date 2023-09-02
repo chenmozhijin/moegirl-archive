@@ -134,12 +134,12 @@ for pageidlist_d in devide(pageidlist, 50):
                 # 将标题中的特殊字符替换为安全字符，用于构建存档文件名
                 title_in_file = title.replace("/", "／").replace(":", "：").replace("\\", "＼").replace("*", "＊").replace("?","？").replace("\"", "＂").replace("<", "＜").replace(">", "＞").replace("|", "｜")
                 import json
-                if os.path.isfile(fold + title_in_file + ".txt"):
+                if os.path.isfile(fold + title_in_file + ".json"):
                     if pageid in reviddict and reviddict[pageid][0] == revid and reviddict[pageid][1] == title:
                         # print("[－]","\t[P]",pageid,"\t[R]",revid,"\t[标题]",title)
                         pass
                     else:
-                        with open(fold + title_in_file + ".txt", 'w', encoding=file_encoding) as output_file:
+                        with open(fold + title_in_file + ".json", 'w', encoding=file_encoding) as output_file:
                             json.dump(data, output_file, ensure_ascii=False, indent=4)
                         f.close()
                         print("[覆]","\t[P]",pageid,"\t[R]",revid,"\t[标题]",title)
@@ -148,7 +148,7 @@ for pageidlist_d in devide(pageidlist, 50):
                     #f = open(fold + title_in_file + ".txt", 'w', encoding=file_encoding)
                     #f.write(content)
                     #f.close()
-                    with open(fold + title_in_file + ".txt", 'w', encoding=file_encoding) as output_file:
+                    with open(fold + title_in_file + ".json", 'w', encoding=file_encoding) as output_file:
                         json.dump(data, output_file, ensure_ascii=False, indent=4)
                     f.close()
                     print("[新]","\t[P]",pageid,"\t[R]",revid,"\t[标题]",title)
