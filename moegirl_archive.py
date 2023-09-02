@@ -122,32 +122,34 @@ for pageidlist_d in devide(pageidlist, 50):
                 else:
                     if b.ok:
                         json2: dict = b.json()
-                        #print(f"页面内容{json2}")
                         if isResponceOK(json2):
                             break
             pageJson = json2['query']['pages'][str(pageid)]
             if 'cirrusdoc' in pageJson:
-                #print(f"content:{pageJson}")
                 content = pageJson['cirrusdoc'][0]['source']['text']
                 title = pageJson['title']
                 revid = pageJson['cirrusdoc'][0]['source']['version']
                 content = re.sub(r'萌娘百科欢迎您参与完善本条目☆Kira~   欢迎正在阅读这个条目的您协助编辑本条目。编辑前请阅读Wiki入门或条目编辑规范，并查找相关资料。萌娘百科祝您在本站度过愉快的时光。   ', r'', content)
-                print(f"content:{content}")
+                data = [{"title": title, "pageid": pageid, "text": content, "source": "moegril"}]
                 # 将标题中的特殊字符替换为安全字符，用于构建存档文件名
                 title_in_file = title.replace("/", "／").replace(":", "：").replace("\\", "＼").replace("*", "＊").replace("?","？").replace("\"", "＂").replace("<", "＜").replace(">", "＞").replace("|", "｜")
+                import json
                 if os.path.isfile(fold + title_in_file + ".txt"):
                     if pageid in reviddict and reviddict[pageid][0] == revid and reviddict[pageid][1] == title:
                         # print("[－]","\t[P]",pageid,"\t[R]",revid,"\t[标题]",title)
                         pass
                     else:
-                        f = open(fold + title_in_file + ".txt", 'w', encoding=file_encoding)
-                        f.write(content)
+                        with open(fold + title_in_file + ".txt", 'w', encoding=file_encoding) as output_file:
+                            json.dump(data, output_file, ensure_ascii=False, indent=4)
                         f.close()
                         print("[覆]","\t[P]",pageid,"\t[R]",revid,"\t[标题]",title)
                         n_overridden += 1
                 else:
-                    f = open(fold + title_in_file + ".txt", 'w', encoding=file_encoding)
-                    f.write(content)
+                    #f = open(fold + title_in_file + ".txt", 'w', encoding=file_encoding)
+                    #f.write(content)
+                    #f.close()
+                    with open(fold + title_in_file + ".txt", 'w', encoding=file_encoding) as output_file:
+                        json.dump(data, output_file, ensure_ascii=False, indent=4)
                     f.close()
                     print("[新]","\t[P]",pageid,"\t[R]",revid,"\t[标题]",title)
                     n_new += 1
