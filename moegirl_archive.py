@@ -129,7 +129,7 @@ for pageidlist_d in devide(pageidlist, 50):
                 content = pageJson['cirrusdoc'][0]['source']['text']
                 title = pageJson['title']
                 revid = pageJson['cirrusdoc'][0]['source']['version']
-                content = re.sub(r'萌娘百科欢迎您参与完善本条目☆Kira~   欢迎正在阅读这个条目的您协助编辑本条目。编辑前请阅读Wiki入门或条目编辑规范，并查找相关资料。萌娘百科祝您在本站度过愉快的时光。   ', r'', content)
+                content = re.sub(r'.*?萌娘百科祝您在本站度过愉快的时光。( )*', r'', content)
                 data = [{"title": title, "pageid": pageid, "text": content, "source": "moegril"}]
                 # 将标题中的特殊字符替换为安全字符，用于构建存档文件名
                 title_in_file = title.replace("/", "／").replace(":", "：").replace("\\", "＼").replace("*", "＊").replace("?","？").replace("\"", "＂").replace("<", "＜").replace(">", "＞").replace("|", "｜")
